@@ -4,6 +4,10 @@ use Closure;
 use ReflectionFunction;
 use ErrorException;
 
+class FinalException extends \Exception {
+    
+}
+
 class Handler {
 
     /**
@@ -12,6 +16,13 @@ class Handler {
      * @var array
      */
     protected $handlers = array();
+    
+    /**
+     * The final fallback error handler
+     * 
+     * @var closure 
+     */
+    protected $fallback;
     
     public function __construct()
     {
@@ -73,16 +84,13 @@ class Handler {
      */
     public function handleException($exception)
     {
-        $response = $this->callCustomHandlers($exception);
+        $handled = $this->callCustomHandlers($exception);
 
         // If no response was sent by this custom exception handler, we will call the
         // default exception displayer for the current application context and let
         // it show the exception to the user / developer based on the situation.
 
-        isset($response) or $response = $this->formatException($exception);
-
-
-        $this->display($response);
+        $handled or $this->callFallback($exception);
 
         exit(1);
     }
@@ -146,18 +154,18 @@ class Handler {
             // if any exceptions are thrown from a handler itself. This way we will get
             // at least some errors, and avoid errors with no data or not log writes.
             try {
-                $response = $handler($exception, $code);
+                $handler($exception, $code);
             } catch (\Exception $e) {
-                $response = $this->formatException($e);
+                
+                $response = 'Error in exception handler: ' . $this->formatException($e);
+                
+                $this->callFallback(new FinalException($response, 0, $exception));
             }
 
-            // If this handler returns a "non-null" response, we will return it so it will
+            // If this handler returns a "non-false" response (null is a non-false response), we will return it so it will
             // get sent back to the browsers. Once the handler returns a valid response
             // we will cease iterating through them and calling these other handlers.
-            if (isset($response))
-            {
-                return $response;
-            }
+            return true;
         }
     }
 
@@ -201,16 +209,7 @@ class Handler {
     {
         $location = $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine();
 
-        return 'Error in exception handler: ' . $location;
-    }
-
-    /**
-     * 
-     * @param type $message
-     */
-    protected function display($message)
-    {
-        echo PHP_EOL . $message . PHP_EOL . PHP_EOL;
+        return $location;
     }
 
     /**
@@ -234,6 +233,29 @@ class Handler {
     {
         $this->handlers[] = $callback;
     }
+    
+    /**
+     * 
+     * @param Closure $callback
+     */
+    public function fallback(Closure $callback)
+    {
+        $this->fallback = $callback;
+    }
+    
+    /**
+     * 
+     * @param \Exception $e
+     */
+    public function callFallback(\Exception $e)
+    {
+        if($fallback = $this->fallback)
+        {
+            $fallback($e);
+        }else{
+            throw $e;
+        }
+    }
 
     /**
      * Register the exception / error handlers for the application.
@@ -247,7 +269,7 @@ class Handler {
 
         $this->registerExceptionHandler();
 
-        $this->registerShutdownHandler();
+        //$this->registerShutdownHandler();
     }
     
     public function getHandlers()
