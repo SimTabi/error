@@ -269,7 +269,7 @@ class Handler {
 
         $this->registerExceptionHandler();
 
-        //$this->registerShutdownHandler();
+        $this->registerShutdownHandler();
     }
     
     public function getHandlers()
