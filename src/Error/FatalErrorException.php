@@ -1,7 +1,7 @@
 <?php namespace Error;
 
-use Exception;
+use ErrorException;
 
-class FatalErrorException extends Exception {
+class FatalErrorException extends ErrorException {
     
 };
