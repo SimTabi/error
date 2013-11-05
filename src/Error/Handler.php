@@ -1,4 +1,4 @@
-<?php Error;
+<?php namespace Error;
 
 use Closure;
 use ReflectionFunction;
