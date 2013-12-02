@@ -82,7 +82,7 @@ class Handler {
      * @param  \Exception  $exception
      * @return void
      */
-    public function handleException($exception)
+    public function handleException($exception, $exit = true)
     {
         $handled = $this->callCustomHandlers($exception);
 
@@ -92,7 +92,7 @@ class Handler {
 
         $handled or $this->callFallback($exception);
 
-        exit(1);
+        if($exit) exit(1); // removed to allow chaining of handlers - check thi
     }
 
     /**
@@ -114,7 +114,7 @@ class Handler {
             if (!$this->isFatal($type))
                 return;
 
-            $this->handleException(new FatalErrorException($message, $type, 0, $file, $line));
+            $this->handleException(new FatalErrorException($message, $type, 0, $file, $line), false);
         }
     }
 
