@@ -221,6 +221,8 @@ class Handler {
     public function error(Closure $callback)
     {
         array_unshift($this->handlers, $callback);
+        
+        return $this;
     }
 
     /**
@@ -232,6 +234,8 @@ class Handler {
     public function pushError(Closure $callback)
     {
         $this->handlers[] = $callback;
+        
+        return $this;
     }
     
     /**
@@ -241,13 +245,15 @@ class Handler {
     public function fallback(Closure $callback)
     {
         $this->fallback = $callback;
+        
+        return $this;
     }
     
     /**
      * 
      * @param \Exception $e
      */
-    public function callFallback(\Exception $e)
+    protected function callFallback(\Exception $e)
     {
         if($fallback = $this->fallback)
         {
@@ -263,7 +269,7 @@ class Handler {
      * @param  string  $environment
      * @return void
      */
-    public function registerHandlers()
+    protected function registerHandlers()
     {
         $this->registerErrorHandler();
 
