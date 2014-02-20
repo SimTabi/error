@@ -218,7 +218,7 @@ class Handler {
      * @param  Closure  $callback
      * @return void
      */
-    public function error(Closure $callback)
+    public function unshiftError(Closure $callback)
     {
         array_unshift($this->handlers, $callback);
         
@@ -231,7 +231,7 @@ class Handler {
      * @param  Closure  $callback
      * @return void
      */
-    public function pushError(Closure $callback)
+    public function error(Closure $callback)
     {
         $this->handlers[] = $callback;
         
