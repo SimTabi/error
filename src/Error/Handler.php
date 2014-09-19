@@ -68,11 +68,11 @@ class Handler {
      * @param  int     $line
      * @param  array   $context
      */
-    public function handleError($level, $message, $file, $line, $context)
+    public function handleError($level, $message, $file = '', $line = 0, $context = array())
     {
         if (error_reporting() & $level)
         {
-            throw new ErrorException($message, $level, 0, $file, $line);
+            throw new ErrorException($message, 0, $level, $file, $line);
         }
     }
 
@@ -100,9 +100,9 @@ class Handler {
      *
      * @return void
      */
-    public function handleShutdown()
+    public function handleShutdown(array $errorGetLast = null)
     {
-        $error = error_get_last();
+        $error = $errorGetLast ?: error_get_last();
 
         // If an error has occurred that has not been displayed, we will create a fatal
         // error exception instance and pass it into the regular exception handling
@@ -277,10 +277,5 @@ class Handler {
 
         $this->registerShutdownHandler();
     }
-    
-    public function getHandlers()
-    {
-        return $this->handlers;
-    }
-    
+
 }

@@ -1,18 +1,14 @@
 {
     "name": "joegreen0991/error",
     "type": "library",
-    "description": "Error component based on laravel's",
+    "description": "A stacked error handling library",
     "autoload": {
         "psr-0": { 
             "Error": "src"
          }
     },
-    "minimum-stability": "dev",
-    "require" : {
-
-    },
     "require-dev" : {
         "phpunit/phpunit" : "*",
-        "codeception/specify" : "*"
+        "mockery/mockery" : "*"
     }
 }
