@@ -1,6 +1,5 @@
 <?php
 use Error\Handler;
-use Mockery as m;
 
 class TestExceptionTypeOne extends Exception
 {

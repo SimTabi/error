@@ -9,6 +9,6 @@
     },
     "require-dev" : {
         "phpunit/phpunit" : "*",
-        "mockery/mockery" : "*"
+        "satooshi/php-coveralls": "dev-master"
     }
 }
