@@ -216,7 +216,7 @@ class Handler {
      * Register an application error handler.
      *
      * @param  Closure  $callback
-     * @return void
+     * @return static
      */
     public function unshiftError(Closure $callback)
     {
@@ -229,7 +229,7 @@ class Handler {
      * Register an application error handler at the bottom of the stack.
      *
      * @param  Closure  $callback
-     * @return void
+     * @return static
      */
     public function error(Closure $callback)
     {
@@ -241,6 +241,7 @@ class Handler {
     /**
      * 
      * @param Closure $callback
+     * @return static
      */
     public function fallback(Closure $callback)
     {
