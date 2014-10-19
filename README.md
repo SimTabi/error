@@ -25,6 +25,10 @@ Install via composer
 Usage
 -----
 
+Simply instantiate the class and it will automatically apply an error handler to convert errors to exceptions, using `set_error_handler`.
+
+It will also create an exception handler using `set_exception_handler` which checks for closures handling the type of exception that has been thrown.
+
 ~~~PHP
 
 $handler = new Error\Handler();
