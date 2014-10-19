@@ -1,5 +1,5 @@
 {
-    "name": "joegreen0991/error",
+    "name": "mrjgreen/error",
     "type": "library",
     "description": "A stacked error handling library",
     "autoload": {
