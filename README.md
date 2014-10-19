@@ -1,7 +1,7 @@
 Error - A simple, stackable, closure based error handler
 =====
 
-[![Build Status](https://travis-ci.org/joegreen0991/error.svg)](https://travis-ci.org/joegreen0991/error)
+[![Build Status](https://travis-ci.org/mrjgreen/error.svg)](https://travis-ci.org/mrjgreen/error)
 [![Coverage Status](https://img.shields.io/coveralls/joegreen0991/error.svg)](https://coveralls.io/r/joegreen0991/error)
 
 
